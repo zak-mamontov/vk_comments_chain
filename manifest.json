@@ -1,0 +1,16 @@
+{
+    "manifest_version": 2,
+    "name": "vk comments chain",
+    "version": "0.0.1",
+    "icons": { "128": "img/icon128.png" },
+    "content_scripts": [
+        {
+            "matches": ["*://*.vk.com/*"],
+            "css": ["css/main.css"],
+            "js": ["js/bg.js"]
+        }
+    ],
+    "web_accessible_resources": [
+        "/js/inject.js",
+    ]
+}
