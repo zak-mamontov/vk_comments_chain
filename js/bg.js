@@ -1,5 +1,13 @@
-request_listener = function(){
-    full_json = JSON.parse(this.responseText).response;
+chrome.extension.onMessageExternal.addListener(function(request, sender, call_back){
+    chain = create_chaine(request.oid, request.pid, request.cid);
+    call_back(chain);
+})
+
+
+create_chaine = function(owner_id, post_id, comment_id){
+    resp = send_api_request(owner_id, post_id, comment_id);
+    console.log(resp)
+    full_json = JSON.parse(resp).response;
     console.log(full_json);
     var next_id = full_json.items[0].reply_to_comment;
     var chain = [full_json.items[0],];
@@ -10,7 +18,7 @@ request_listener = function(){
             next_id = full_json.items[i].reply_to_comment;
         };
     };
-    console.log(chain);
+    return chain;
 }
 
 
@@ -22,7 +30,7 @@ dict_to_uri = function(dict){
 
 send_api_request = function(owner_id, post_id, comment_id){
     data = {
-        'owner_id' : -1*owner_id,
+        'owner_id' : '-' + owner_id,
         'post_id' : post_id,
         'count' : 100,
         'sort' : 'desc',
@@ -30,9 +38,9 @@ send_api_request = function(owner_id, post_id, comment_id){
         'start_comment_id' : comment_id,
     };
     var req = new XMLHttpRequest();
-    req.addEventListener('load', request_listener);
-    req.open('GET', 'https://api.vk.com/method/wall.getComments?' + dict_to_uri(data));
+    // req.addEventListener('load', request_listener, false);
+    req.open('GET', 'https://api.vk.com/method/wall.getComments?' + dict_to_uri(data), false);
     req.send();
+    return req.responseText;
 }
 
-send_api_request(116747264, 96, 146);

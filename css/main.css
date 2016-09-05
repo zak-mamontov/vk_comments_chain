@@ -1,0 +1,7 @@
+.show_chain{
+
+	opacity: 1;
+}
+.show_chain:hover {
+	opacity: 0.8;
+}
