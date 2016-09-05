@@ -1,14 +1,22 @@
 chrome.extension.onMessageExternal.addListener(function(request, sender, call_back){
     chain = create_chaine(request.oid, request.pid, request.cid);
-    call_back(chain);
+    call_back({'chain':chain, 'pid':request.pid});
 })
 
 
 create_chaine = function(owner_id, post_id, comment_id){
-    resp = send_api_request(owner_id, post_id, comment_id);
-    console.log(resp)
+    var data = {
+        'owner_id' : '-' + owner_id,
+        'post_id' : post_id,
+        'count' : 100,
+        'sort' : 'desc',
+        'v' : 5.33,
+        'start_comment_id' : comment_id,
+        'extended': 1,
+    };
+    var url = 'https://api.vk.com/method/wall.getComments?';
+    resp = send_api_request(data, url, false);
     full_json = JSON.parse(resp).response;
-    console.log(full_json);
     var next_id = full_json.items[0].reply_to_comment;
     var chain = [full_json.items[0],];
     num_of_comments = full_json.count - full_json.real_offset - 1;
@@ -28,18 +36,9 @@ dict_to_uri = function(dict){
     }).join('&');
 }
 
-send_api_request = function(owner_id, post_id, comment_id){
-    data = {
-        'owner_id' : '-' + owner_id,
-        'post_id' : post_id,
-        'count' : 100,
-        'sort' : 'desc',
-        'v' : 5.33,
-        'start_comment_id' : comment_id,
-    };
+send_api_request = function(data, url, sync){
     var req = new XMLHttpRequest();
-    // req.addEventListener('load', request_listener, false);
-    req.open('GET', 'https://api.vk.com/method/wall.getComments?' + dict_to_uri(data), false);
+    req.open('GET', url + dict_to_uri(data), sync);
     req.send();
     return req.responseText;
 }
