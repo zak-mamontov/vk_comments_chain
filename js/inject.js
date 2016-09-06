@@ -7,7 +7,9 @@ Wall._repliesLoaded = function(post, hl, replies, names, data) {
     setTimeout(replace_html, 300);
 }
 
-rs_t = function(html, repl) {
+window.onload = function () {replace_html()}
+
+var rs_t = function(html, repl) {
   each (repl, function(k, v) {
     html = html.replace(new RegExp('%' + k + '%', 'g'), (typeof v === 'undefined' ? '' : v).toString().replace(/\$/g, '&#036;').replace(/\[(id[0-9]+)\|([^\]+]+)\]/,'<a href="/$1">$2</a>'));
   });
@@ -19,14 +21,11 @@ var find_ancestor = function(el, cls) {
     return el;
 }
 
-function has_class(el, cls) {
+var has_class = function(el, cls) {
     return el.classList.contains(cls);
 }
 
-
-
-
-replace_html = function(){
+var replace_html = function(){
     var reply_to_els = document.getElementsByClassName('reply_to');
     for (i = 0; i<reply_to_els.length; i++){
         var reply = find_ancestor(reply_to_els[i], 'reply');
@@ -49,70 +48,44 @@ replace_html = function(){
             };
         };
     };
-    // require(['dojo/on', 'dojo/query', 'dojo/dom', "dojo/NodeList-traverse"], function(on, query, dom, domClass){
-    //     query('.reply_to').forEach(function(node){
-    //         console.log(query(node));
-    //         // console.log(hasClass(query(node).closest(".reply")[0], 'o_yep'));
-    //         if (!hasClass(query(node).closest(".reply")[0], 'o_yep')){
-    //             var reply = query(node).closest(".reply").addClass("o_yep")[0];
-    //             var reply_box = dojo.position(reply);
-    //             var but_size = {height: reply_box.h -20 + 'px'}
-    //             var oid = reply.id.split('-')[1].split('_')[0];
-    //             var pid = query('#'+reply.id+' .wd_lnk')[0].getAttribute('href').split('_')[1].split('?')[0];
-    //             var cid = reply.id.split('_')[1];
-    //             var but = dojo.create("div", {class: 'show_me_all', cid: cid, pid: pid, oid:oid, style: but_size});
-
-    //             dojo.place(but, reply, "first");
-    //         }
-    //     })
-    //     query('.show_me_all').on('click', function(){
-    //         draw_chain([this.getAttribute('cid'), this.getAttribute('pid'), this.getAttribute('oid')]);
-    //     });
-    // })
 };
 
-pre_draw_controls = function(){
+var pre_draw_controls = function(){
     if (document.getElementById('page_wall_posts') != null){
         replace_html();
     } else {
         setTimeout(pre_draw_controls, 100);
     }
 }
-    
 
-// get_tpl = function(){
-//     tpl = cur.wallTpl.reply.replace('reply_img','reply_img own_ava');
-//     return tpl;
-// }
-
-get_tpl = function(){
+var get_tpl = function(){
     html = '<div class="comment_overlay" style="display: block;">\
-    <article id="ARTICLE_1">\
-    <div id="DIV_2">\
-        <div id="DIV_3">\
-            <div id="DIV_4">\
-                <a href="%link%" id="A_5"><img src="%photo%" id="IMG_6" /><span id="SPAN_7"></span></a>\
-            </div>\
-            <div id="DIV_8">\
-                <h1 id="H1_9">\
-                     <a href="%link%" id="A_10">%name%</a>\
-                </h1>\
-                <div id="DIV_11">\
-                    <p id="P_12">\
-                        %text%\
-                    </p>\
+                <article id="ARTICLE_1">\
+                <div id="DIV_2">\
+                    <div id="DIV_3">\
+                        <div id="DIV_4">\
+                            <a href="%link%" id="A_5"><img src="%photo%" id="IMG_6" /><span id="SPAN_7"></span></a>\
+                        </div>\
+                        <div id="DIV_8">\
+                            <h1 id="H1_9">\
+                                 <a href="%link%" id="A_10">%name%</a>\
+                            </h1>\
+                            <div id="DIV_11">\
+                                <p id="P_12">\
+                                    %text%\
+                                </p>\
+                            </div>\
+                        </div>\
+                    </div>\
                 </div>\
+            </article>\
+            <br clear="both">\
             </div>\
-        </div>\
-    </div>\
-</article>\
-<br clear="both">\
-</div>\
-'
+            '
     return html
 }
 
-to_tpl = function(data, pid, persons){
+var to_tpl = function(data, pid, persons){
     person = persons.filter(function(obj){
         return obj.id == data.from_id;
     });
@@ -133,11 +106,11 @@ to_tpl = function(data, pid, persons){
     return reply_info;
 }
 
-make_html = function(info, tpl){
+var make_html = function(info, tpl){
     return se(rs_t(tpl, info));
 }
 
-draw_box = function(html){
+var draw_box = function(html){
     var content = document.createElement('div');
     for (i=0; i<html.length; i++){
         content.appendChild(html[i]);
@@ -158,7 +131,7 @@ draw_box = function(html){
     console.log('box.show');
 }
 
-draw_chain = function(ids_list){
+var draw_chain = function(ids_list){
     var reply_html_list = [];
     chrome.runtime.sendMessage(app_uid, {'ids_list': ids_list}, function(result){
         template = get_tpl();
@@ -170,9 +143,5 @@ draw_chain = function(ids_list){
             reply_html_list[i] = pre_html;
         };
         draw_box(reply_html_list.reverse());
-    })
-    
+    });
 }
-
-setTimeout(pre_draw_controls, 1000);
-
