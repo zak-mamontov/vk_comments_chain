@@ -16,7 +16,7 @@ rs_t = function(html, repl) {
 replace_html = function(){
     require(['dojo/on', 'dojo/query', 'dojo/dom', "dojo/NodeList-traverse"], function(on, query, dom, domClass){
         query('.reply_to').forEach(function(node){
-            if (!hasClass(query(node).closest(".reply")), 'o_yep'){
+            if (!hasClass(query(node).closest(".reply")[0], 'o_yep')){
                 var reply = query(node).closest(".reply").addClass("o_yep")[0];
                 var reply_box = dojo.position(reply);
                 var but_size = {height: reply_box.h -20 + 'px'}
@@ -113,11 +113,12 @@ draw_box = function(html){
                 bodyStyle: 'background-color: rgba(79, 113, 152, 0.3); border-radius: 6px',
                 hideButtons: true,
                 grey: true,
-                // progress: true
+                progress: true,
                 hideOnBGClick: false
             });
     box.content(content.innerHTML);
     box.show();
+    console.log('box.show');
 }
 
 draw_chain = function(ids_list){
