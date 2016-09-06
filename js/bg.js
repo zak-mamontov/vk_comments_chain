@@ -1,32 +1,41 @@
 chrome.extension.onMessageExternal.addListener(function(request, sender, call_back){
-    chain = create_chaine(request.oid, request.pid, request.cid);
-    call_back({'chain':chain, 'pid':request.pid});
+    chain = create_chaine(request.ids_list);
+    call_back({'chain':chain[0], 'pid':request.ids_list[1], 'persons':chain[1]});
 })
 
 
-create_chaine = function(owner_id, post_id, comment_id){
+create_chaine = function(ids_list){
     var data = {
-        'owner_id' : '-' + owner_id,
-        'post_id' : post_id,
+        'owner_id' : '-' + ids_list[2],
+        'post_id' : ids_list[1],
         'count' : 100,
         'sort' : 'desc',
         'v' : 5.33,
-        'start_comment_id' : comment_id,
+        'start_comment_id' : ids_list[0],
         'extended': 1,
     };
     var url = 'https://api.vk.com/method/wall.getComments?';
-    resp = send_api_request(data, url, false);
-    full_json = JSON.parse(resp).response;
+    var resp = send_api_request(data, url, false);
+    var full_json = JSON.parse(resp).response;
+    var persons = full_json.profiles;
+
+
     var next_id = full_json.items[0].reply_to_comment;
     var chain = [full_json.items[0],];
-    num_of_comments = full_json.count - full_json.real_offset - 1;
+    num_of_comments = full_json.count - full_json.real_offset;
+
     for (i = 1; i< num_of_comments; i++){
-        if (full_json.items[i].id = next_id){
+        if (full_json.items[i].id == next_id){
             chain.push(full_json.items[i]);
-            next_id = full_json.items[i].reply_to_comment;
+
+            if (full_json.items[i].reply_to_comment != undefined){
+                next_id = full_json.items[i].reply_to_comment;
+            } else {
+                return [chain, persons]
+            }
         };
     };
-    return chain;
+    return [chain, persons];
 }
 
 
