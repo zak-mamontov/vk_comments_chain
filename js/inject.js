@@ -1,7 +1,8 @@
-var app_uid = 'achgbcoajdgjpojafcpdlenfgjlbkdgm'
-
+var app_uid = 'achgbcoajdgjpojafcpdlenfgjlbkdgm';
+var on_controls_render = false;
 var cloned_function = Wall._repliesLoaded;
 Wall._repliesLoaded = function(post, hl, replies, names, data) {
+    console.log('repliesLoaded');
     cloned_function(post, hl, replies, names, data);
     setTimeout(replace_html, 300);
 }
@@ -13,25 +14,61 @@ rs_t = function(html, repl) {
   return html;
 }
 
-replace_html = function(){
-    require(['dojo/on', 'dojo/query', 'dojo/dom', "dojo/NodeList-traverse"], function(on, query, dom, domClass){
-        query('.reply_to').forEach(function(node){
-            if (!hasClass(query(node).closest(".reply")[0], 'o_yep')){
-                var reply = query(node).closest(".reply").addClass("o_yep")[0];
-                var reply_box = dojo.position(reply);
-                var but_size = {height: reply_box.h -20 + 'px'}
-                var oid = reply.id.split('-')[1].split('_')[0];
-                var pid = query('#'+reply.id+' .wd_lnk')[0].getAttribute('href').split('_')[1].split('?')[0];
-                var cid = reply.id.split('_')[1];
-                var but = dojo.create("div", {class: 'show_me_all', cid: cid, pid: pid, oid:oid, style: but_size});
+var find_ancestor = function(el, cls) {
+    while ((el = el.parentElement) && !el.classList.contains(cls));
+    return el;
+}
 
-                dojo.place(but, reply, "first");
-            }
-        })
-        query('.show_me_all').on('click', function(){
-            draw_chain([this.getAttribute('cid'), this.getAttribute('pid'), this.getAttribute('oid')]);
-        });
-    })
+function has_class(el, cls) {
+    return el.classList.contains(cls);
+}
+
+
+
+
+replace_html = function(){
+    var reply_to_els = document.getElementsByClassName('reply_to');
+    for (i = 0; i<reply_to_els.length; i++){
+        var reply = find_ancestor(reply_to_els[i], 'reply');
+        if (!hasClass(reply, 'o_yep') && !(hasClass(reply.firstChild, 'show_me_all'))){
+            var reply_height = reply.offsetHeight;
+            var oid = reply.getAttribute('id').split('-')[1].split('_')[0];
+            var cid = reply.getAttribute('id').split('_')[1];
+            var pid = find_ancestor(reply, 'post').getAttribute('id').split('_')[1];
+            // var but = dojo.create("div", {class: 'show_me_all', cid: cid, pid: pid, oid:oid, style: but_size});
+            var but = document.createElement('div');
+            but.classList.add('show_me_all');
+            but.setAttribute('oid', oid);
+            but.setAttribute('cid', cid);
+            but.setAttribute('pid', pid);
+            but.setAttribute('style','height:' + (reply_height - 20) + 'px');
+            reply.insertBefore(but, reply.firstChild);
+
+            but.onclick = function() {
+                draw_chain([this.getAttribute('cid'), this.getAttribute('pid'), this.getAttribute('oid')]);
+            };
+        };
+    };
+    // require(['dojo/on', 'dojo/query', 'dojo/dom', "dojo/NodeList-traverse"], function(on, query, dom, domClass){
+    //     query('.reply_to').forEach(function(node){
+    //         console.log(query(node));
+    //         // console.log(hasClass(query(node).closest(".reply")[0], 'o_yep'));
+    //         if (!hasClass(query(node).closest(".reply")[0], 'o_yep')){
+    //             var reply = query(node).closest(".reply").addClass("o_yep")[0];
+    //             var reply_box = dojo.position(reply);
+    //             var but_size = {height: reply_box.h -20 + 'px'}
+    //             var oid = reply.id.split('-')[1].split('_')[0];
+    //             var pid = query('#'+reply.id+' .wd_lnk')[0].getAttribute('href').split('_')[1].split('?')[0];
+    //             var cid = reply.id.split('_')[1];
+    //             var but = dojo.create("div", {class: 'show_me_all', cid: cid, pid: pid, oid:oid, style: but_size});
+
+    //             dojo.place(but, reply, "first");
+    //         }
+    //     })
+    //     query('.show_me_all').on('click', function(){
+    //         draw_chain([this.getAttribute('cid'), this.getAttribute('pid'), this.getAttribute('oid')]);
+    //     });
+    // })
 };
 
 pre_draw_controls = function(){

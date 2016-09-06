@@ -22,9 +22,11 @@ create_chaine = function(ids_list){
 
     var next_id = full_json.items[0].reply_to_comment;
     var chain = [full_json.items[0],];
-    num_of_comments = full_json.count - full_json.real_offset;
+    num_of_comments = (full_json.count - full_json.real_offset > 100) ? 100 : (full_json.count - full_json.real_offset);
 
+    console.log(num_of_comments, full_json);
     for (i = 1; i< num_of_comments; i++){
+        console.log(i);
         if (full_json.items[i].id == next_id){
             chain.push(full_json.items[i]);
 
