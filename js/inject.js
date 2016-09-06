@@ -50,9 +50,7 @@ pre_draw_controls = function(){
 
 get_tpl = function(){
     html = '<div class="comment_overlay" style="display: block;">\
-    <article class="layout-row retrievable clearfix">\
-        <div class="col-xs-12 odd lovemark-comment xs-no-padding">\
-        <div clas<article id="ARTICLE_1">\
+    <article id="ARTICLE_1">\
     <div id="DIV_2">\
         <div id="DIV_3">\
             <div id="DIV_4">\
@@ -112,9 +110,11 @@ draw_box = function(html){
                 width: 670,
                 onHide: false,
                 onDestroy: false,
-                bodyStyle: 'background-color: rgba(241, 240, 240, 0.84); border-radius: 8px',
+                bodyStyle: 'background-color: rgba(79, 113, 152, 0.3); border-radius: 6px',
                 hideButtons: true,
-                grey: true
+                grey: true,
+                // progress: true
+                hideOnBGClick: false
             });
     box.content(content.innerHTML);
     box.show();
