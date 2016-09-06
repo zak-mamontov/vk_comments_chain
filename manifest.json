@@ -6,13 +6,11 @@
     "background": {
         "scripts": ["js/bg.js"]
     },
-    "content_scripts": [
-        {
-            "matches": ["*://*.vk.com/*"],
-            "css": ["css/main.css"],
-            "js": ["js/cont.js"]
-        }
-    ],
+    "content_scripts": [{
+        "matches": ["*://*.vk.com/*"],
+        "css": ["css/main.css"],
+        "js": ["js/cont.js"]
+    }],
     "web_accessible_resources": [
         "/js/inject.js"
     ],

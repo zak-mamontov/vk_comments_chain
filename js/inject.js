@@ -7,13 +7,13 @@ Wall._repliesLoaded = function(post, hl, replies, names, data) {
     setTimeout(replace_html, 300);
 }
 
-window.onload = function () {replace_html()}
+window.onload = function() { replace_html() }
 
 var rs_t = function(html, repl) {
-  each (repl, function(k, v) {
-    html = html.replace(new RegExp('%' + k + '%', 'g'), (typeof v === 'undefined' ? '' : v).toString().replace(/\$/g, '&#036;').replace(/\[(id[0-9]+)\|([^\]+]+)\]/,'<a href="/$1">$2</a>'));
-  });
-  return html;
+    each(repl, function(k, v) {
+        html = html.replace(new RegExp('%' + k + '%', 'g'), (typeof v === 'undefined' ? '' : v).toString().replace(/\$/g, '&#036;').replace(/\[(id[0-9]+)\|([^\]+]+)\]/, '<a href="/$1">$2</a>'));
+    });
+    return html;
 }
 
 var find_ancestor = function(el, cls) {
@@ -25,11 +25,11 @@ var has_class = function(el, cls) {
     return el.classList.contains(cls);
 }
 
-var replace_html = function(){
+var replace_html = function() {
     var reply_to_els = document.getElementsByClassName('reply_to');
-    for (i = 0; i<reply_to_els.length; i++){
+    for (i = 0; i < reply_to_els.length; i++) {
         var reply = find_ancestor(reply_to_els[i], 'reply');
-        if (!hasClass(reply, 'o_yep') && !(hasClass(reply.firstChild, 'show_me_all'))){
+        if (!hasClass(reply, 'o_yep') && !(hasClass(reply.firstChild, 'show_me_all'))) {
             var reply_height = reply.offsetHeight;
             var oid = reply.getAttribute('id').split('-')[1].split('_')[0];
             var cid = reply.getAttribute('id').split('_')[1];
@@ -40,7 +40,7 @@ var replace_html = function(){
             but.setAttribute('oid', oid);
             but.setAttribute('cid', cid);
             but.setAttribute('pid', pid);
-            but.setAttribute('style','height:' + (reply_height - 20) + 'px');
+            but.setAttribute('style', 'height:' + (reply_height - 20) + 'px');
             reply.insertBefore(but, reply.firstChild);
 
             but.onclick = function() {
@@ -50,15 +50,15 @@ var replace_html = function(){
     };
 };
 
-var pre_draw_controls = function(){
-    if (document.getElementById('page_wall_posts') != null){
+var pre_draw_controls = function() {
+    if (document.getElementById('page_wall_posts') != null) {
         replace_html();
     } else {
         setTimeout(pre_draw_controls, 100);
     }
 }
 
-var get_tpl = function(){
+var get_tpl = function() {
     html = '<div class="comment_overlay" style="display: block;">\
                 <article id="ARTICLE_1">\
                 <div id="DIV_2">\
@@ -85,8 +85,8 @@ var get_tpl = function(){
     return html
 }
 
-var to_tpl = function(data, pid, persons){
-    person = persons.filter(function(obj){
+var to_tpl = function(data, pid, persons) {
+    person = persons.filter(function(obj) {
         return obj.id == data.from_id;
     });
     reply_info = {
@@ -94,7 +94,7 @@ var to_tpl = function(data, pid, persons){
         'date': data.date,
         'photo': person[0].photo_100,
         'text': data.text,
-        'link': '/id'+ data.from_id,
+        'link': '/id' + data.from_id,
         'reply_uid': pid,
         'name': person[0].first_name + ' ' + person[0].last_name,
         'to_link': '/id' + data.reply_to_user,
@@ -106,42 +106,42 @@ var to_tpl = function(data, pid, persons){
     return reply_info;
 }
 
-var make_html = function(info, tpl){
-    return se(rs_t(tpl, info));
+var make_html = function(info, tpl) {
+    return rs_t(tpl, info);
 }
 
-var draw_box = function(html){
-    var content = document.createElement('div');
-    for (i=0; i<html.length; i++){
-        content.appendChild(html[i]);
-    };
+var draw_box = function(html) {
+    // var content = document.createElement('div');
+    // for (i = 0; i < html.length; i++) {
+    //     content.appendChild(html[i]);
+    // };
     var box = new MessageBox({
-                title: false,
-                width: 670,
-                onHide: false,
-                onDestroy: false,
-                bodyStyle: 'background-color: rgba(79, 113, 152, 0.3); border-radius: 6px',
-                hideButtons: true,
-                grey: true,
-                progress: true,
-                hideOnBGClick: false
-            });
-    box.content(content.innerHTML);
+        title: false,
+        width: 670,
+        onHide: false,
+        onDestroy: false,
+        bodyStyle: 'background-color: rgba(79, 113, 152, 0.3); border-radius: 6px',
+        hideButtons: true,
+        grey: true,
+        progress: true,
+        hideOnBGClick: false
+    });
+    box.content(html);
     box.show();
     console.log('box.show');
 }
 
-var draw_chain = function(ids_list){
+var draw_chain = function(ids_list) {
     var reply_html_list = [];
-    chrome.runtime.sendMessage(app_uid, {'ids_list': ids_list}, function(result){
+    var cont = '';
+    chrome.runtime.sendMessage(app_uid, { 'ids_list': ids_list }, function(result) {
         template = get_tpl();
-        for (i = 0; i<result.chain.length; i++){
+        for (i = 0; i < result.chain.length; i++) {
             var info = to_tpl(result.chain[i], result.pid, result.persons);
             var pre_html = make_html(info, template);
-            // var el = pre_html.getElementsByClassName('reply_footer')[0];
-            // el.remove();
+            cont = cont + pre_html;
             reply_html_list[i] = pre_html;
         };
-        draw_box(reply_html_list.reverse());
+        draw_box(cont);
     });
 }

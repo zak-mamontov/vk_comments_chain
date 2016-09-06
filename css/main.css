@@ -1,7 +1,8 @@
-.o_yep{
+.o_yep {
     /*background-color: #F2F1F9 !important;*/
 }
-.show_me_all{
+
+.show_me_all {
     width: 70px;
     margin: 10px 2px 0 0;
     /*border-radius: 0 0 32px 0;*/
@@ -9,20 +10,19 @@
     position: absolute;
     right: 20px;
     /*background-color: #ccc;*/
-    background-image: url('data:image/png;base64,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');    background-position: center;
+    background-image: url('data:image/png;base64,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');
+    background-position: center;
     opacity: 0.3;
     cursor: pointer;
 }
-.show_me_all:hover{
+
+.show_me_all:hover {
     opacity: 0.7;
 }
 
-
-.comment_overlay{
+.comment_overlay {
     margin-bottom: 15px;
 }
-
-
 
 #ARTICLE_1 {
     box-sizing: border-box;
@@ -33,14 +33,13 @@
     transform-origin: 365px 91.3281px;
     background: rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box padding-box;
     border: 0px none #333;
-    font: normal normal 400 normal 16px / 18px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal 400 normal 16px / 18px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
     outline: #333 none 0px;
     padding: 0px;
-}/*#ARTICLE_1*/
+}
 
 
-
-
+/*#ARTICLE_1*/
 
 #DIV_2 {
     bottom: 0px;
@@ -59,10 +58,13 @@
     background: rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box;
     border: 0px solid rgb(224, 224, 224);
     border-radius: 5px 5px 5px 5px;
-    font: normal normal 400 normal 16px / 18px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal 400 normal 16px / 18px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
     outline: #333 none 0px;
     padding: 15px 0px;
-}/*#DIV_2*/
+}
+
+
+/*#DIV_2*/
 
 #DIV_3 {
     box-sizing: border-box;
@@ -72,9 +74,12 @@
     perspective-origin: 365px 0px;
     transform-origin: 365px 0px;
     border: 0px none #333;
-    font: normal normal 400 normal 16px / 18px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal 400 normal 16px / 18px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
     outline: #333 none 0px;
-}/*#DIV_3*/
+}
+
+
+/*#DIV_3*/
 
 #DIV_4 {
     bottom: 0px;
@@ -87,20 +92,26 @@
     top: 0px;
     column-rule-color: #333;
     border: 0px none #333;
-    font: normal normal 400 normal 16px / 18px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal 400 normal 16px / 18px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
     outline: #333 none 0px;
     padding: 0px 15px;
-}/*#DIV_4*/
+}
+
+
+/*#DIV_4*/
 
 #A_5 {
     color: rgb(206, 50, 52);
     text-decoration: none;
     column-rule-color: rgb(206, 50, 52);
     border: 0px none rgb(206, 50, 52);
-    font: normal normal bold normal 16px / 18px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal bold normal 16px / 18px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
     outline: rgb(206, 50, 52) none 0px;
     transition: color 0.3s ease-in 0s;
-}/*#A_5*/
+}
+
+
+/*#A_5*/
 
 #IMG_6 {
     color: rgb(206, 50, 52);
@@ -113,9 +124,12 @@
     transform-origin: 45.8281px 45.8281px;
     border: 0px none rgb(206, 50, 52);
     border-radius: 50% 50% 50% 50%;
-    font: normal normal bold normal 16px / 18px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal bold normal 16px / 18px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
     outline: rgb(206, 50, 52) none 0px;
-}/*#IMG_6*/
+}
+
+
+/*#IMG_6*/
 
 #SPAN_7 {
     bottom: 0px;
@@ -131,8 +145,11 @@
     column-rule-color: rgb(206, 50, 52);
     background: rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box;
     border: 0px none rgb(206, 50, 52);
-    font: normal normal bold normal 16px / 18px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
-}/*#SPAN_7*/
+    font: normal normal bold normal 16px / 18px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
+}
+
+
+/*#SPAN_7*/
 
 #DIV_8 {
     bottom: 0px;
@@ -143,9 +160,12 @@
     right: 0px;
     top: 0px;
     column-rule-color: #333;
-    font: normal normal 400 normal 16px / 18px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal 400 normal 16px / 18px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
     padding: 0px 15px;
-}/*#DIV_8*/
+}
+
+
+/*#DIV_8*/
 
 #H1_9 {
     max-width: 300px;
@@ -154,9 +174,12 @@
     perspective-origin: 289.156px 13px;
     transform-origin: 289.156px 13px;
     border: 0px none rgb(206, 50, 52);
-    font: normal normal normal normal 24px / 26.4px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal normal normal 24px / 26.4px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
     margin: 0px;
-}/*#H1_9*/
+}
+
+
+/*#H1_9*/
 
 #A_10 {
     box-sizing: border-box;
@@ -164,12 +187,16 @@
     text-decoration: none;
     column-rule-color: rgb(206, 50, 52);
     border: 0px none rgb(206, 50, 52);
-    font: normal normal bold normal 18px / 20px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal bold normal 18px / 20px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
     outline: rgb(206, 50, 52) none 0px;
     transition: color 0.3s ease-in 0s;
     opacity: 1;
     text-decoration: none;
-}/*#A_10*/
+}
+
+
+/*#A_10*/
+
 #A_10:hover {
     text-decoration: underline;
     opacity: 0.9;
@@ -180,19 +207,25 @@
     color: #333;
     column-rule-color: #333;
     border: 0px none #333;
-    font: normal normal 400 normal 16px / 18px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal 400 normal 16px / 18px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
     margin: 15px 0px 0px;
     max-width: 450px;
-}/*#DIV_11*/
+}
+
+
+/*#DIV_11*/
 
 #P_12 {
     box-sizing: border-box;
     color: #333;
     column-rule-color: #333;
-    font: normal normal 400 normal 16px / 18px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal 400 normal 16px / 18px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
     margin: 0px 0px 10px;
     outline: #333 none 0px;
-}/*#P_12*/
+}
+
+
+/*#P_12*/
 
 #DIV_13 {
     bottom: 0px;
@@ -212,9 +245,15 @@
     border-right: 0px none #333;
     border-bottom: 0px none #333;
     border-left: 0px none #333;
-    font: normal normal 400 normal 16px / 18px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal 400 normal 16px / 18px -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
     margin: 15px 0px 0px;
     outline: #333 none 0px;
     padding: 15px 15px 0px;
-}/*#DIV_13*/
+}
 
+/*#preload {
+    background-image: url('../img/planet.gif');
+}*/
+
+
+/*#DIV_13*/
