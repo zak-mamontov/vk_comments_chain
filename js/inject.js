@@ -1,5 +1,4 @@
-var app_uid = 'achgbcoajdgjpojafcpdlenfgjlbkdgm',
-    id_list = []
+var app_uid = 'achgbcoajdgjpojafcpdlenfgjlbkdgm'
 
 var cloned_function = Wall._repliesLoaded;
 Wall._repliesLoaded = function(post, hl, replies, names, data) {
@@ -9,7 +8,7 @@ Wall._repliesLoaded = function(post, hl, replies, names, data) {
 
 rs_t = function(html, repl) {
   each (repl, function(k, v) {
-    html = html.replace(new RegExp('%' + k + '%', 'g'), (typeof v === 'undefined' ? '' : v).toString().replace(/\$/g, '&#036;'));
+    html = html.replace(new RegExp('%' + k + '%', 'g'), (typeof v === 'undefined' ? '' : v).toString().replace(/\$/g, '&#036;').replace(/\[(id[0-9]+)\|([^\]+]+)\]/,'<a href="/$1">$2</a>'));
   });
   return html;
 }
@@ -57,7 +56,7 @@ get_tpl = function(){
     <div id="DIV_2">\
         <div id="DIV_3">\
             <div id="DIV_4">\
-                <a href="%link" id="A_5"><img src="%photo%" id="IMG_6" /><span id="SPAN_7"></span></a>\
+                <a href="%link%" id="A_5"><img src="%photo%" id="IMG_6" /><span id="SPAN_7"></span></a>\
             </div>\
             <div id="DIV_8">\
                 <h1 id="H1_9">\

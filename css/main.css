@@ -180,14 +180,20 @@
 
 #A_10 {
     box-sizing: border-box;
-    color: rgb(206, 50, 52);
+    color: #2a5885;
     text-decoration: none;
     column-rule-color: rgb(206, 50, 52);
     border: 0px none rgb(206, 50, 52);
-    font: normal normal bold normal 24px / 26.4px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font: normal normal bold normal 18px / 21.4px  -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
     outline: rgb(206, 50, 52) none 0px;
     transition: color 0.3s ease-in 0s;
+    opacity: 1;
+    text-decoration: none;
 }/*#A_10*/
+#A_10:hover {
+    text-decoration: underline;
+    opacity: 0.9;
+}
 
 #DIV_11 {
     box-sizing: border-box;
