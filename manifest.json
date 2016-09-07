@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "vk_comments_chain",
-    "version": "0.3.1",
+    "version": "0.3.3",
     "icons": { "128": "img/icon128.png" },
     "background": {
         "scripts": ["js/bg.js"]
@@ -12,7 +12,8 @@
         "js": ["js/cont.js"]
     }],
     "web_accessible_resources": [
-        "/js/inject.js"
+        "/js/inject.js",
+        "/img/planet.gif"
     ],
     "externally_connectable": {
         "ids": ["*"],

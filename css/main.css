@@ -251,9 +251,17 @@
     padding: 15px 15px 0px;
 }
 
-/*#preload {
-    background-image: url('../img/planet.gif');
-}*/
+#preload {
+    display: block;
+    width: 500px;
+    height: 500px;
+    margin: 0 50px 0 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 100px;
+    border-radius: 250px;
+    opacity: 0.8;
+}
 
 
 /*#DIV_13*/

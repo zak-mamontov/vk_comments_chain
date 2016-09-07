@@ -1,11 +1,16 @@
 var app_uid = 'achgbcoajdgjpojafcpdlenfgjlbkdgm';
 var on_controls_render = false;
 var cloned_function = Wall._repliesLoaded;
+var bg_image;
 Wall._repliesLoaded = function(post, hl, replies, names, data) {
     console.log('repliesLoaded');
     cloned_function(post, hl, replies, names, data);
     setTimeout(replace_html, 300);
 }
+
+document.addEventListener('BindURL', function(e) {
+    bg_image = e.detail;
+})
 
 window.onload = function() { replace_html() }
 
@@ -128,11 +133,11 @@ var draw_box = function(html) {
     });
     box.content(html);
     box.show();
-    console.log('box.show');
+    return box;
 }
 
 var draw_chain = function(ids_list) {
-    var reply_html_list = [];
+    box = draw_box('<div id="preload" style="background-image: url('+ bg_image +')"></div>')
     var cont = '';
     chrome.runtime.sendMessage(app_uid, { 'ids_list': ids_list }, function(result) {
         template = get_tpl();
@@ -140,8 +145,7 @@ var draw_chain = function(ids_list) {
             var info = to_tpl(result.chain[i], result.pid, result.persons);
             var pre_html = make_html(info, template);
             cont = cont + pre_html;
-            reply_html_list[i] = pre_html;
         };
-        draw_box(cont);
+        box.content(cont);
     });
 }
