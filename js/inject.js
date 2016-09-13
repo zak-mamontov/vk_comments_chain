@@ -1,18 +1,28 @@
-var app_uid = 'achgbcoajdgjpojafcpdlenfgjlbkdgm';
+var app_debug = false;
+var update_time = 2000;
+var app_uid = '';
 var on_controls_render = false;
-var cloned_function = Wall._repliesLoaded;
 var bg_image;
-Wall._repliesLoaded = function(post, hl, replies, names, data) {
-    console.log('repliesLoaded');
-    cloned_function(post, hl, replies, names, data);
-    setTimeout(replace_html, 300);
+var wall_overloaded = false;
+var obj_loc;
+var replies_length = 0;
+
+var console_log = function(s) {
+    if (app_debug) {
+        if (Array.isArray(s)) {
+            s = s.join(' ');
+        }
+        console.log(s);
+    }
 }
 
-document.addEventListener('BindURL', function(e) {
-    bg_image = e.detail;
+document.addEventListener('BindDefData', function(e) {
+    bg_image = e.detail.url;
+    app_uid = e.detail.app_uid;
 })
 
-window.onload = function() { replace_html() }
+window.onload = function() { update_loc(); };
+
 
 var rs_t = function(html, repl) {
     each(repl, function(k, v) {
@@ -21,7 +31,24 @@ var rs_t = function(html, repl) {
     return html;
 }
 
+var update_loc = function() {
+    console_log('update_loc|start')
+    if (typeof(nav.objLoc) != 'undefined' && obj_loc != nav.objLoc) {
+        console_log('update_loc|nav.objLoc');
+        obj_loc = nav.objLoc;
+        replace_html();
+    } else if (document.getElementsByClassName('reply_to').length != replies_length) {
+        console_log(['update_loc|replies_length', replies_length]);
+        replace_html();
+    };
+    setTimeout(update_loc, update_time);
+}
+
 var find_ancestor = function(el, cls) {
+    // if (!el.classList.contains('watched')) {
+    //     el.classList.add('watched');
+    // };
+
     while ((el = el.parentElement) && !el.classList.contains(cls));
     return el;
 }
@@ -31,15 +58,26 @@ var has_class = function(el, cls) {
 }
 
 var replace_html = function() {
+    console_log('replace_html|start')
+    if (typeof(Wall) != 'undefined' && !wall_overloaded) {
+        var cloned_function = Wall._repliesLoaded;
+        Wall._repliesLoaded = function(post, hl, replies, names, data) {
+            cloned_function(post, hl, replies, names, data);
+            wall_overloaded = true;
+            setTimeout(replace_html, 300);
+        };
+    };
     var reply_to_els = document.getElementsByClassName('reply_to');
     for (i = 0; i < reply_to_els.length; i++) {
+        console_log('replace_html|loop start');
         var reply = find_ancestor(reply_to_els[i], 'reply');
         if (!hasClass(reply, 'o_yep') && !(hasClass(reply.firstChild, 'show_me_all'))) {
+            console_log('replace_html|loop if');
             var reply_height = reply.offsetHeight;
-            var oid = reply.getAttribute('id').split('-')[1].split('_')[0];
-            var cid = reply.getAttribute('id').split('_')[1];
+            var summ_id = reply.getAttribute('id').replace(/[a-z]+\-?([0-9]+)_([0-9]+)/, '$1!$2')
+            var oid = summ_id.split('!')[0]
+            var cid = summ_id.split('!')[1]
             var pid = find_ancestor(reply, 'post').getAttribute('id').split('_')[1];
-            // var but = dojo.create("div", {class: 'show_me_all', cid: cid, pid: pid, oid:oid, style: but_size});
             var but = document.createElement('div');
             but.classList.add('show_me_all');
             but.setAttribute('oid', oid);
@@ -47,12 +85,12 @@ var replace_html = function() {
             but.setAttribute('pid', pid);
             but.setAttribute('style', 'height:' + (reply_height - 20) + 'px');
             reply.insertBefore(but, reply.firstChild);
-
             but.onclick = function() {
                 draw_chain([this.getAttribute('cid'), this.getAttribute('pid'), this.getAttribute('oid')]);
             };
         };
     };
+    replies_length = reply_to_els.length;
 };
 
 var pre_draw_controls = function() {
@@ -79,20 +117,32 @@ var get_tpl = function() {
                                 <p id="P_12">\
                                     %text%\
                                 </p>\
-                            </div>\
-                        </div>\
-                    </div>\
-                </div>\
-            </article>\
-            <br clear="both">\
-            </div>\
-            '
+                            '
     return html
+}
+
+var get_photos = function(data) {
+    var photos = [];
+    if (typeof(data.attachments) != 'undefined') {
+        for (var i = 0; i < data.attachments.length; i++) {
+            if (data.attachments[i].type == 'photo') {
+                var photo_size = 0;
+                for (var k = 0; k < Object.keys(data.attachments[i].photo).length; k++) {
+                    var act_size = parseInt(Object.keys(data.attachments[i].photo)[k].replace(/photo_([0-9]+)/, '$1'));
+                    if (photo_size < act_size) {
+                        photo_size = act_size;
+                    };
+                };
+                photos.push(data.attachments[i].photo['photo_' + photo_size]);
+            };
+        };
+    };
+    return photos;
 }
 
 var to_tpl = function(data, pid, persons) {
     person = persons.filter(function(obj) {
-        return obj.id == data.from_id;
+        return obj.id == Math.abs(data.from_id);
     });
     reply_info = {
         'reply_id': data.id,
@@ -111,15 +161,27 @@ var to_tpl = function(data, pid, persons) {
     return reply_info;
 }
 
-var make_html = function(info, tpl) {
-    return rs_t(tpl, info);
+var make_html = function(info, tpl, photos) {
+    var result = rs_t(tpl, info);
+    if (photos.length > 0) {
+        for (var i = 0; i < photos.length; i++) {
+            result += '<a href=' + photos[i] + ' target="_blank"><img src=' + photos[i] + ' class="in_image"/></a>';
+        };
+
+    };
+    result += '</div>\
+                        </div>\
+                    </div>\
+                </div>\
+            </article>\
+            <br clear="both">\
+            </div>\
+            '
+
+    return result;
 }
 
 var draw_box = function(html) {
-    // var content = document.createElement('div');
-    // for (i = 0; i < html.length; i++) {
-    //     content.appendChild(html[i]);
-    // };
     var box = new MessageBox({
         title: false,
         width: 670,
@@ -137,14 +199,15 @@ var draw_box = function(html) {
 }
 
 var draw_chain = function(ids_list) {
-    box = draw_box('<div id="preload" style="background-image: url('+ bg_image +')"></div>')
+    box = draw_box('<div id="preload" style="background-image: url(' + bg_image + ')"></div>')
     var cont = '';
     chrome.runtime.sendMessage(app_uid, { 'ids_list': ids_list }, function(result) {
         template = get_tpl();
         for (i = 0; i < result.chain.length; i++) {
             var info = to_tpl(result.chain[i], result.pid, result.persons);
-            var pre_html = make_html(info, template);
-            cont = cont + pre_html;
+            var photos = get_photos(result.chain[i]);
+            var pre_html = make_html(info, template, photos);
+            cont = pre_html + cont;
         };
         box.content(cont);
     });

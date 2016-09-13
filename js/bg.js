@@ -16,15 +16,13 @@ var create_chaine = function(ids_list) {
     var url = 'https://api.vk.com/method/wall.getComments?';
     var resp = send_api_request(data, url, false);
     var full_json = JSON.parse(resp).response;
-    var persons = full_json.profiles;
+    var persons = full_json.profiles.concat(full_json.groups);
     var next_id = full_json.items[0].reply_to_comment;
     var chain = [full_json.items[0], ];
     var num_of_comments = (full_json.count - full_json.real_offset > 100) ? 100 : (full_json.count - full_json.real_offset);
     for (i = 1; i < num_of_comments; i++) {
-        console.log(i);
         if (full_json.items[i].id == next_id) {
             chain.push(full_json.items[i]);
-
             if (full_json.items[i].reply_to_comment != undefined) {
                 next_id = full_json.items[i].reply_to_comment;
             } else {
