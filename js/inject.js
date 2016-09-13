@@ -45,10 +45,6 @@ var update_loc = function() {
 }
 
 var find_ancestor = function(el, cls) {
-    // if (!el.classList.contains('watched')) {
-    //     el.classList.add('watched');
-    // };
-
     while ((el = el.parentElement) && !el.classList.contains(cls));
     return el;
 }
