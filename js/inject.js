@@ -12,8 +12,7 @@ var console_log = function(s) {
         if (Array.isArray(s)) {
             s = s.join(' ');
         }
-        console.
-log(s);
+        console.log(s);
     }
 }
 
@@ -29,7 +28,7 @@ var rs_t = function(html, repl) {
     each(repl, function(k, v) {
         if (k == 'text') {
             v = (typeof v === 'undefined' ? '' : v);
-            v = v.replace(/(\r|\n)/g, ' <br /> ');
+            v = v.replace(/(\r|\n)/g, ' <br /> '); // make newlines
             v = v.replace(/((http)?s?(\:\/\/)?((www)?\.?[a-zA-Z0-9]+\.[a-zA-Z]+\/?\S+))/g, '<a href="$1" target="_blank">$4</a>'); //make links
         };
         html = html.replace(new RegExp('%' + k + '%', 'g'), (typeof v === 'undefined' ? '' : v).toString().replace(/\$/g, '&#036;'));
