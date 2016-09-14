@@ -1,12 +1,17 @@
-<img width="128px" src="https://habrastorage.org/files/4bb/e28/c8d/4bbe28c8dc7848d0b008dea014a6ca94.png"/>
-# vk_comments_chain
+![Logo](https://habrastorage.org/files/4bb/e28/c8d/4bbe28c8dc7848d0b008dea014a6ca94.png) 
+#vk comments chain
+Расширение для браузера **Google Chrome*, выстаивающее цепочки из комментариев Вконтакте. Позволяет читать отдельную беседу, фильтруя лишнее.
 
-Расширение для хрома (или оперы), которое позволяет читать диалог из комментариев в нашем любимом вконташе.
+*Зачем это нужно? *Часто довольно сложно проследить ход обсуждения пары людей в комментариях. Приходится далеко рыть, чтобы найти "с чего всё началось". С этим расширением жизнь немного упрощается. По клику на "цепочку" появляется попап, в котором только комментарии нужных собеседников.
 
-Зачем это нужно? Часто довольно сложно проследить ход обсуждения пары людей в комментариях. Приходится далеко рыть, чтобы найти "с чего всё началось". С этим расширением жизнь немного упрощается. По клику на "цепочку" появляется всплывающее окно, в котором только комментарии нужных собеседников. На скриншотах показано, что к чему :)
+На скриншотах показано, как это работает:
 
-<img width="340px" src="https://habrastorage.org/files/b12/567/20c/b1256720c56c449181ca3e7ff46893f8.png" />
-<img width="340px" src="https://habrastorage.org/files/f7e/5e7/d1b/f7e5e7d1b89444f189c8ae9454739719.png"/>
-<img width="340px" src="https://habrastorage.org/files/013/198/4f2/0131984f2ccf450e80e1ef724010c6e7.png"/>
-<img width="340px" src="https://habrastorage.org/files/448/b8b/98f/448b8b98f8de4f1cbcac35921b1edb37.png"/>
+<p><a href="https://habrastorage.org/files/b19/117/494/b19117494ae74fc39e5243d50841c9fd.png"><b>Полноразмерный скрин по клику</b><br><img src="https://habrastorage.org/files/f76/e84/faf/f76e84faf47d4ab6971454ac147ca8be.png" ></a> </p>
+***
 
+<p>
+<i>Иконка вызова попапа с цепочкой комментариев</i><br>
+<img alt="button" src="https://hsto.org/files/efc/3c8/a45/efc3c8a450dc45508d510b32b95f920a.png" title="button" width="400px" /><br>
+<i>Прелоадер</i><br><img alt="preloader" src="https://habrastorage.org/files/08e/611/00b/08e61100b0e64d058406a43101f0b44b.png" title="preloader"  width="400px" /> 
+ <br>
+<i>Вложенные изображения, ссылки, переносы строк</i><br><img alt="short" src="https://habrastorage.org/files/cbf/ba7/14b/cbfba714b0aa48b8842914b0d414cbda.png" width="400px"/> </p>
